@@ -1,0 +1,285 @@
+@import "tailwindcss";
+
+/* ============================================================
+   amBlitz — design tokens
+   Palette pulled straight off the logo: leaf green, mango skin,
+   ink black. Marigold is reserved for the Naam Lekhan section,
+   marker red only ever draws a margin rule.
+   ============================================================ */
+
+@theme {
+  /* ---- ink & paper ---- */
+  --color-ink: #14231a;
+  --color-ink-70: #46554b;
+  --color-ink-40: #626e66;
+  --color-ink-20: #aab3ac;
+
+  --color-paper: #fcfaf2;
+  --color-paper-2: #f4efe0;
+  --color-paper-3: #ebe4d0;
+  --color-board: #101d15;
+  --color-board-2: #182a1e;
+
+  /* ---- leaf (primary) ---- */
+  --color-leaf-50: #f1f9ec;
+  --color-leaf-100: #ddf1d1;
+  --color-leaf-200: #bee4ab;
+  --color-leaf-300: #98d47e;
+  --color-leaf-400: #71bf56;
+  --color-leaf-500: #56a83f;
+  --color-leaf-600: #3f8a30;
+  --color-leaf-700: #2e6926;
+  --color-leaf-800: #234f1e;
+
+  /* ---- mango (accent, from the face) ---- */
+  --color-mango-100: #fdf0da;
+  --color-mango-200: #fbdfb2;
+  --color-mango-300: #f8c986;
+  --color-mango-400: #f3b05d;
+  --color-mango-500: #e59237;
+
+  /* ---- specials ---- */
+  --color-marker: #cf483e;
+  --color-rule: #dfe7d8;
+  --color-rule-2: #cfdbc6;
+  --color-marigold: #d3891c;
+  --color-marigold-50: #fff6e4;
+  --color-marigold-100: #fdeac6;
+  --color-haldi: #8c5a10;
+
+  /* ---- type ---- */
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-dm-mono), ui-monospace, "SF Mono", monospace;
+  --font-deva: var(--font-tiro), "Noto Serif Devanagari", serif;
+
+  /* ---- radii ---- */
+  --radius-card: 22px;
+  --radius-slab: 30px;
+
+  /* ---- shadows: paper stacking, never glassy ---- */
+  --shadow-paper: 0 1px 0 rgba(20, 35, 26, 0.04), 0 12px 28px -18px rgba(20, 35, 26, 0.4);
+  --shadow-lift: 0 2px 0 rgba(20, 35, 26, 0.05), 0 26px 50px -28px rgba(20, 35, 26, 0.5);
+  --shadow-sheet: 0 30px 60px -34px rgba(20, 35, 26, 0.55), 0 2px 0 rgba(20, 35, 26, 0.06);
+
+  /* ---- motion ---- */
+  --animate-marquee: marquee 38s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   base
+   ============================================================ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01";
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-leaf-300);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-leaf-600);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 24, "WONK" 1, "opsz" 40;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================================
+   custom utilities
+   ============================================================ */
+
+/* Ruled notebook paper. The whole page is built on top of this. */
+@utility ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 33px,
+    var(--color-rule) 33px,
+    var(--color-rule) 34px
+  );
+}
+
+@utility ruled-tight {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 25px,
+    var(--color-rule) 25px,
+    var(--color-rule) 26px
+  );
+}
+
+/* Graph paper for the OMR / spec panels */
+@utility graph {
+  background-image:
+    linear-gradient(to right, var(--color-rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-rule) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+@utility wonk-off {
+  font-variation-settings: "SOFT" 0, "WONK" 0, "opsz" 14;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ============================================================
+   component classes
+   ============================================================ */
+
+/* --- the signature: an OMR bubble --- */
+.bubble {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-ink-20);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  line-height: 1;
+  color: var(--color-ink-40);
+  background: transparent;
+  flex: none;
+}
+
+.bubble-filled {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: transparent;
+}
+
+.bubble-leaf {
+  border-color: var(--color-leaf-600);
+  background: var(--color-leaf-500);
+  color: transparent;
+}
+
+/* --- spiral binding rendered in CSS, used on cards & the hero sheet --- */
+.spiral {
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    var(--color-ink-20) 0 3.2px,
+    transparent 3.4px
+  );
+  background-size: 22px 100%;
+  background-repeat: repeat-x;
+}
+
+.spiral-ring {
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0 6px,
+    var(--color-ink-40) 6px 8px,
+    transparent 8px 22px
+  );
+}
+
+/* --- headline flourish: hand-drawn underline --- */
+.underline-pen {
+  background-image: linear-gradient(to top, var(--color-mango-300) 0 38%, transparent 38%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding-inline: 0.1em;
+  border-radius: 2px;
+}
+
+/* --- reveal on scroll --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* --- button: shading sweeps across on hover, like filling a bubble --- */
+.btn-fill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-leaf-600);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.btn-fill:hover::before,
+.btn-fill:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* --- naam lekhan grid box --- */
+.naam-box {
+  border: 1px solid var(--color-marigold-100);
+  border-right-color: rgba(211, 137, 28, 0.35);
+  border-bottom-color: rgba(211, 137, 28, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-deva);
+  color: var(--color-haldi);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+.naam-box[data-written="true"] {
+  background: var(--color-marigold-100);
+  color: var(--color-marigold);
+}
+
+/* --- edge fade for marquees --- */
+.edge-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
