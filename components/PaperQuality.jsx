@@ -11,10 +11,10 @@ function Swatch({ gsm, caption, ghost, highlight }) {
         <p className="font-mono text-[0.95rem] text-ink">{gsm}</p>
         {highlight ? (
           <span className="rounded-full bg-leaf-600 px-2.5 py-0.5 font-mono text-[0.58rem] uppercase tracking-wide text-paper">
-            ours
+            Amblitz Brand
           </span>
         ) : (
-          <span className="font-mono text-[0.58rem] uppercase tracking-wide text-ink-40">typical</span>
+          <span className="font-mono text-[0.58rem] uppercase tracking-wide text-ink-40">Other Brands</span>
         )}
       </div>
 
@@ -61,8 +61,8 @@ export default function PaperQuality() {
                 {[
                   ["Weight", "70 GSM white, uncoated"],
                   ["Binding", "Spiral, opens flat at 180°"],
-                  ["Sizes", "A4 for exams, B5 for pustikas"],
-                  ["Print", "Single side on OMR sheets"],
+                  ["Sizes", "A4 for exams, B5"],
+                  ["Print", "Fine Offset Printing"],
                 ].map(([k, v]) => (
                   <div key={k} className="flex items-baseline justify-between gap-6 py-4">
                     <dt className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-ink-40">

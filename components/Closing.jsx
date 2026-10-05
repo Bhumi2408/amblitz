@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Facebook, Youtube, Instagram } from "lucide-react";
 import { Reveal } from "./Bits";
-import { nav, categories, STORE_URL } from "../lib/content";
+import { nav, categories, socials, STORE_URL } from "../lib/content";
+
+const SOCIAL_ICONS = { Facebook, YouTube: Youtube, Instagram };
 import Link from "next/link";
 
 /* Section 17 — closing call to action */
@@ -92,9 +94,26 @@ export function Footer() {
               className="h-auto w-44"
             />
             <p className="mt-5 max-w-sm text-[0.95rem] leading-relaxed text-ink-70">
-              Practice stationery made by a student, for students. Premium paper at prices a student
-              is actually paying.
+              Practice Stationery for Students, Good Quality Paper at economical Price to student
+              readily available Online
             </p>
+            <div className="mt-6 flex gap-3">
+              {socials.map((s) => {
+                const Icon = SOCIAL_ICONS[s.name];
+                return (
+                  <a
+                    key={s.name}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.name}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-ink/15 text-ink-70 transition-colors hover:border-ink hover:text-ink"
+                  >
+                    <Icon size={18} strokeWidth={1.8} />
+                  </a>
+                );
+              })}
+            </div>
           </div>
 
           <div>
@@ -112,6 +131,14 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href="#collections"
+                  className="text-[0.95rem] text-ink-70 transition-colors hover:text-ink"
+                >
+                  Unruled Spiral Notebook
+                </a>
+              </li>
             </ul>
           </div>
 

@@ -12,11 +12,12 @@ const SIZES = [
   { count: "51,000", note: "51,840 boxes · the popular one", href: "https://www.amazon.in/Amblitz-51000-Naam-Lekhan-Pustika/dp/B08D3T4DCB" },
   { count: "1,00,000", note: "310 pages · one lakh naam", href: "https://www.amazon.in/amblitz-Lekhan-Pustika-Organised-Spiral/dp/B0CLVQVN1V" },
   { count: "1,51,000", note: "468 pages · the full sankalp", href: "https://www.amazon.in/amblitz-Lekhan-Pustika-Organised-Spiral/dp/B0CLVQVN1V" },
+  { count: "2,00,000", note: "Two lakh naam · beyond one mala", href: "https://www.amazon.in/amblitz-Pustika-Notebook-Devoted-Meditation/dp/B0HJM7R325/ref=ast_sto_dp_puis" },
 ];
 
 const NOTES = [
   {
-    head: "Broad boxes, 18 × 6 mm",
+    head: "Broad boxes, 18 x 5.5 MM",
     body: "Wide enough for an unhurried hand. This is the single thing people write in to thank us about — a seventy-year-old finishes a section without her glasses sliding down.",
   },
   {
@@ -25,7 +26,7 @@ const NOTES = [
   },
   {
     head: "No deity image on the cover",
-    body: "Deliberate. A plain cover can be kept anywhere in the house, and when the book is full it can be offered or immersed without hesitation.",
+    body: "Deliberate. A plain cover can be kept anywhere in the house, and when the book is full it can be offered or disposed without hesitation.",
   },
   {
     head: "Any naam, not only Ram",
@@ -186,7 +187,7 @@ export default function NaamLekhan() {
             <p className="font-mono text-[0.66rem] uppercase tracking-[0.2em] text-haldi/80">
               Choose your sankalp
             </p>
-            <div className="mt-5 grid gap-px overflow-hidden rounded-card border border-marigold/25 bg-marigold/20 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-5 grid gap-px overflow-hidden rounded-card border border-marigold/25 bg-marigold/20 sm:grid-cols-2 lg:grid-cols-5">
               {SIZES.map((s) => (
                 <a
                   key={s.count}

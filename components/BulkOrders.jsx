@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Send, Check } from "lucide-react";
 import { Reveal, Eyebrow } from "./Bits";
 
+const QUOTE_EMAIL = "ship.amblitz@gmail.com";
+
 const WHO = [
   { title: "Coaching centres", line: "Weekend mocks for a full batch. Loose sheets, correct bubble pitch." },
   { title: "Schools & colleges", line: "Ruled spirals and answer booklets, delivered before the session starts." },
@@ -20,7 +22,9 @@ export default function BulkOrders() {
 
   const submit = (e) => {
     e.preventDefault();
-    // No backend here — swap this for your form endpoint or a mailto handoff.
+    const subject = `Bulk quote request — ${form.org}`;
+    const body = `Name: ${form.name}\nInstitution: ${form.org}\nContact: ${form.contact}\n\nWhat we need:\n${form.need}`;
+    window.location.href = `mailto:${QUOTE_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   };
 
@@ -137,7 +141,12 @@ export default function BulkOrders() {
                   </button>
 
                   <p className="text-[0.78rem] leading-relaxed text-paper/40">
-                    You get a quote back, not an invoice. Nothing ships until you say yes to it.
+                    You get a quote back, not an invoice. Nothing ships until you say yes to it. Or
+                    email us directly at{" "}
+                    <a href={`mailto:${QUOTE_EMAIL}`} className="text-leaf-300 underline underline-offset-4">
+                      {QUOTE_EMAIL}
+                    </a>
+                    .
                   </p>
                 </form>
               )}

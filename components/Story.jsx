@@ -65,8 +65,7 @@ export default function Story() {
                   wishes they were.
                 </p>
                 <p>
-                  The tree on the cover is doing the same thing you are: growing, roots planted,
-                  looking slightly amused about the whole business.
+                  Brand Logo resembling a Tree - beautifully reflect the idea of nurturing growth responsibly within a society
                 </p>
               </div>
             </Reveal>
@@ -76,7 +75,7 @@ export default function Story() {
                 {[
                   ["Printed", "in India"],
                   ["Priced", "for students"],
-                  ["Made", "for month eleven"],
+                  ["Quality", "not compromised"],
                 ].map(([a, b]) => (
                   <div key={a}>
                     <p className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-ink-40">{a}</p>

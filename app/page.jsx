@@ -14,6 +14,7 @@ import Testimonials from "../components/Testimonials";
 import WhyOmr from "../components/WhyOmr";
 import Range from "../components/Range";
 import Collections from "../components/Collections";
+import WhatsAppButton from "../components/WhatsAppButton";
 
 export default function Page() {
   return (
@@ -26,7 +27,7 @@ export default function Page() {
         {/* 04 */} <SpecMarquee />
         {/* 06 */} <Bestsellers />
         {/* 15 */} <Story />
-        {/* 05 */} <Range />
+        {/* 05 <Range /> */}
         <Collections />
         {/* 07 */} <WhyOmr />
         {/* 08 <ExamPicker /> */}
@@ -40,6 +41,7 @@ export default function Page() {
         {/* 17 */} <FinalCta />
       </main>
       {/* 18 */} <Footer />
+      <WhatsAppButton />
     </>
   );
 }
