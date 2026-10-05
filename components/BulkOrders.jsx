@@ -141,12 +141,7 @@ export default function BulkOrders() {
                   </button>
 
                   <p className="text-[0.78rem] leading-relaxed text-paper/40">
-                    You get a quote back, not an invoice. Nothing ships until you say yes to it. Or
-                    email us directly at{" "}
-                    <a href={`mailto:${QUOTE_EMAIL}`} className="text-leaf-300 underline underline-offset-4">
-                      {QUOTE_EMAIL}
-                    </a>
-                    .
+                    You get a quote back, not an invoice. Nothing ships until you say yes to it. 
                   </p>
                 </form>
               )}
