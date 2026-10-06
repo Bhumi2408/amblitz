@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Send } from "lucide-react";
 import { Reveal, Eyebrow } from "./Bits";
 
-const QUOTE_EMAIL = "ship.amblitz@gmail.com";
+// Each enquiry is submitted once per key, so both Web3Forms inboxes get a copy.
+// Paste the two access keys from web3forms.com here.
+const WEB3FORMS_KEYS = ["d01b840f-738d-49ea-8bd1-7c9c6cfc451c", "9e8e7d69-b7ff-4161-99bd-40143db2d11f"];
 
 const WHO = [
   { title: "Coaching centres", line: "Weekend mocks for a full batch. Loose sheets, correct bubble pitch." },
@@ -15,17 +18,44 @@ const WHO = [
 
 /* Section 13 — bulk & institutional */
 export default function BulkOrders() {
-  const [sent, setSent] = useState(false);
+  const router = useRouter();
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", org: "", contact: "", need: "" });
 
   const update = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const subject = `Bulk quote request — ${form.org}`;
-    const body = `Name: ${form.name}\nInstitution: ${form.org}\nContact: ${form.contact}\n\nWhat we need:\n${form.need}`;
-    window.location.href = `mailto:${QUOTE_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setSending(true);
+    setError("");
+
+    const fields = {
+      subject: `Bulk quote request — ${form.org}`,
+      from_name: "amBlitz website",
+      Name: form.name,
+      Institution: form.org,
+      "Email or phone": form.contact,
+      "What they need": form.need,
+    };
+
+    const results = await Promise.allSettled(
+      WEB3FORMS_KEYS.map((access_key) =>
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ access_key, ...fields }),
+        }).then((r) => r.json())
+      )
+    );
+
+    // Count it as sent if at least one inbox received it.
+    if (results.some((r) => r.status === "fulfilled" && r.value.success)) {
+      router.push("/thank-you");
+    } else {
+      setSending(false);
+      setError("Could not send right now. Please try again, or message us on WhatsApp.");
+    }
   };
 
   return (
@@ -74,25 +104,6 @@ export default function BulkOrders() {
 
           <Reveal delay={160}>
             <div className="rounded-card border border-paper/15 bg-board p-6 sm:p-8">
-              {sent ? (
-                <div className="flex min-h-[22rem] flex-col items-start justify-center">
-                  <span className="grid h-12 w-12 place-items-center rounded-full bg-leaf-500 text-board">
-                    <Check size={22} strokeWidth={2.6} />
-                  </span>
-                  <h3 className="mt-6 text-[1.5rem] text-paper">Request noted.</h3>
-                  <p className="mt-3 text-[0.95rem] leading-relaxed text-paper/60">
-                    A quote with quantities and a delivery date comes back to {form.contact || "you"} within
-                    two working days. Nothing is confirmed until you reply to it.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => setSent(false)}
-                    className="mt-7 text-[0.88rem] font-medium text-leaf-300 underline underline-offset-4"
-                  >
-                    Send another request
-                  </button>
-                </div>
-              ) : (
                 <form onSubmit={submit} className="flex flex-col gap-5">
                   <p className="font-mono text-[0.64rem] uppercase tracking-[0.2em] text-paper/45">
                     Ask for a quote
@@ -134,17 +145,19 @@ export default function BulkOrders() {
 
                   <button
                     type="submit"
-                    className="mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-leaf-500 px-6 py-3.5 text-[0.95rem] font-medium text-board transition-colors duration-300 hover:bg-leaf-400"
+                    disabled={sending}
+                    className="mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-leaf-500 px-6 py-3.5 text-[0.95rem] font-medium text-board transition-colors duration-300 hover:bg-leaf-400 disabled:cursor-wait disabled:opacity-60"
                   >
-                    Send the request
+                    {sending ? "Sending…" : "Send the request"}
                     <Send size={15} strokeWidth={2.2} />
                   </button>
+
+                  {error && <p className="text-[0.85rem] text-mango-300">{error}</p>}
 
                   <p className="text-[0.78rem] leading-relaxed text-paper/40">
                     You get a quote back, not an invoice. Nothing ships until you say yes to it. 
                   </p>
                 </form>
-              )}
             </div>
           </Reveal>
         </div>
